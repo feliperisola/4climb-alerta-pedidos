@@ -14,6 +14,7 @@ GMAIL_FROM         = os.environ.get('GMAIL_FROM', os.environ['GMAIL_USER'])  # r
 GMAIL_APP_PASSWORD = os.environ['GMAIL_APP_PASSWORD']
 ALERT_EMAILS       = [e.strip() for e in os.environ['ALERT_EMAILS'].split(',')]
 THRESHOLD          = int(os.environ.get('THRESHOLD', '50'))
+FORCE_TEST         = os.environ.get('FORCE_TEST', 'false').lower() == 'true'
 GITHUB_TOKEN       = os.environ.get('GITHUB_TOKEN', '')
 GITHUB_REPO        = os.environ.get('GITHUB_REPOSITORY', '')
 
@@ -144,6 +145,11 @@ def main():
     state, sha = get_state()
     was_above = state.get('was_above', False)
     is_above  = count >= THRESHOLD
+
+    if FORCE_TEST:
+        print("Modo teste ativado — enviando e-mail independente do estado.")
+        send_alert_email(count)
+        return
 
     if is_above and not was_above:
         print("Limite atingido! Enviando alerta...")
