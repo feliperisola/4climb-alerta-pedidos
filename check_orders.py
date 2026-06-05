@@ -9,7 +9,8 @@ from email.mime.multipart import MIMEMultipart
 from datetime import datetime
 
 TINY_TOKEN         = os.environ['TINY_TOKEN']
-GMAIL_USER         = os.environ['GMAIL_USER']
+GMAIL_USER         = os.environ['GMAIL_USER']          # conta principal para autenticar (ex: marketing@4climb.com.br)
+GMAIL_FROM         = os.environ.get('GMAIL_FROM', os.environ['GMAIL_USER'])  # remetente exibido (pode ser alias)
 GMAIL_APP_PASSWORD = os.environ['GMAIL_APP_PASSWORD']
 ALERT_EMAILS       = [e.strip() for e in os.environ['ALERT_EMAILS'].split(',')]
 THRESHOLD          = int(os.environ.get('THRESHOLD', '50'))
@@ -99,7 +100,7 @@ def save_state(state, sha=None):
 
 def send_alert_email(count):
     msg = MIMEMultipart('alternative')
-    msg['From']    = GMAIL_USER
+    msg['From']    = GMAIL_FROM
     msg['To']      = ', '.join(ALERT_EMAILS)
     msg['Subject'] = f"⚠️ Alerta 4climb — {count} pedidos em aberto"
 
