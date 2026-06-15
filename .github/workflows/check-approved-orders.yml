@@ -1,0 +1,46 @@
+name: Monitor Pedidos Aprovados Tiny
+
+on:
+  schedule:
+    - cron: '*/5 11-14 * * 1-5'   # seg-sex, 8h-11h horário de Brasília (UTC-3)
+  workflow_dispatch:
+    inputs:
+      force_test:
+        description: 'Enviar e-mail de teste agora (ignora estado atual)'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
+
+permissions:
+  contents: write
+
+jobs:
+  check-approved-orders:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependências
+        run: pip install requests
+
+      - name: Verificar pedidos aprovados
+        env:
+          TINY_TOKEN:           ${{ secrets.TINY_TOKEN }}
+          GMAIL_USER:           ${{ secrets.GMAIL_USER }}
+          GMAIL_FROM:           ${{ secrets.GMAIL_FROM }}
+          GMAIL_APP_PASSWORD:   ${{ secrets.GMAIL_APP_PASSWORD }}
+          ALERT_EMAILS_APROVADO: ${{ secrets.ALERT_EMAILS_APROVADO }}
+          THRESHOLD_APROVADO:   '55'
+          FORCE_TEST:           ${{ github.event.inputs.force_test }}
+          GITHUB_TOKEN:         ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY:    ${{ github.repository }}
+        run: python check_approved_orders.py
