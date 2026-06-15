@@ -2,7 +2,7 @@ name: Monitor Pedidos Tiny
 
 on:
   schedule:
-    - cron: '*/5 11-13 * * 1-5'   # seg-sex, 8h-10h55 horário de Brasília (UTC-3 = 11h-13h55 UTC)
+    - cron: '*/5 11-14 * * 1-5'   # seg-sex, 8h-11h horário de Brasília (UTC-3 = 11h-14h UTC)
   workflow_dispatch:
     inputs:
       force_test:
