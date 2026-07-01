@@ -39,7 +39,7 @@ jobs:
           GMAIL_FROM:         ${{ secrets.GMAIL_FROM }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           ALERT_EMAILS:       ${{ secrets.ALERT_EMAILS }}
-          THRESHOLD:          '50'
+          THRESHOLD:          '60'
           FORCE_TEST:         ${{ github.event.inputs.force_test }}
           GITHUB_TOKEN:       ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY:  ${{ github.repository }}
