@@ -1,5 +1,5 @@
 {
-  "was_above": true,
-  "count_at_alert": 78,
-  "alerted_at": "2026-10-05T19:30:21.384165"
+  "was_above": false,
+  "count": 41,
+  "reset_at": "2026-10-06T17:02:26.988370"
 }
